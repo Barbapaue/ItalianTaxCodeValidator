@@ -43,6 +43,9 @@ private fun String.normalizeCF(): String =
     replace("[ \t\r\n]".toRegex(), "")
         .uppercase(Locale.getDefault())
 
+private val patternCF16 = "^[A-Z]{6}[0-9LMNPQRSTUV]{2}[ABCDEHLMPRST][0-9LMNPQRSTUV]{2}[A-Z][0-9LMNPQRSTUV]{3}[A-Z]$".toRegex()
+private val patternCF11 = "^[0-9]{11}\$".toRegex()
+
 /**
  * Validates a regular CF.
  * @throws CFInvalidCharacters if there are any invalid characters
@@ -54,9 +57,7 @@ private fun String.normalizeCF(): String =
     CFInvalidChecksum::class
 )
 private fun String.validateRegularCF(): String {
-    val pattern = "^[A-Z]{6}[0-9LMNPQRSTUV]{2}[ABCDEHLMPRST][0-9LMNPQRSTUV]{2}[A-Z][0-9LMNPQRSTUV]{3}[A-Z]$".toRegex()
-    //val oldPattern = "^[0-9A-Z]{16}$"
-    if (!this.matches(pattern)) throw CFInvalidCharacters()
+    if (!this.matches(patternCF16)) throw CFInvalidCharacters()
     var s = 0
     val evenMap = "BAFHJNPRTVCESULDGIMOQKWZYX"
     for (index in 0..14) {
@@ -79,7 +80,7 @@ private fun String.validateRegularCF(): String {
     CFInvalidChecksum::class
 )
 private fun String.validateTemporaryCF(): String {
-    if (!matches("^[0-9]{11}$".toRegex())) throw CFInvalidCharacters()
+    if (!matches(patternCF11)) throw CFInvalidCharacters()
     var s = 0
     for (index in 0..10) {
         var n = this[index] - '0'
