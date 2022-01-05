@@ -1,8 +1,10 @@
+package it.paolopasianot.italiantaxcodevalidator
+
 import org.junit.jupiter.api.*
 import kotlin.test.*
 import kotlin.test.Test
 
-internal class CFTest {
+internal class ItalianTaxCodeTests {
 
     @Test
     fun `test empty tax code`(){
